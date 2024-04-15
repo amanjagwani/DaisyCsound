@@ -1,4 +1,4 @@
-# daisyCsound
+# DaisyCsound
 
 ## Author
 
