@@ -25,7 +25,7 @@ string csdText = R"csd(
       afilt butterlp (a1+a2), 40 + (kcf * 10000)
       outs afilt*aenv, afilt*aenv
       endin
-      schedule 1, 0, 1000, 74
+      //schedule 1, 0, 1000, 74
 
 
       </CsInstruments>
