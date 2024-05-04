@@ -214,14 +214,29 @@ build/daisyCsound.o: daisyCsound.cpp \
  ../../DaisySP//Source/Utility/metro.h \
  ../../DaisySP//Source/Utility/port.h \
  ../../DaisySP//Source/Utility/samplehold.h \
- ../../DaisySP//Source/Utility/smooth_random.h daisyCsound.h \
+ ../../DaisySP//Source/Utility/smooth_random.h daisyCsound.h midiBuffer.h \
  /usr/local/csound_baremetal/include/csound/csound.h \
  /usr/local/csound_baremetal/include/csound/sysdep.h \
  /usr/local/csound_baremetal/include/csound/float-version.h \
  /usr/local/csound_baremetal/include/csound/text.h \
  /usr/local/csound_baremetal/include/csound/cfgvar.h \
  /usr/local/csound_baremetal/include/csound/msg_attr.h \
- /usr/local/csound_baremetal/include/csound/version.h
+ /usr/local/csound_baremetal/include/csound/version.h \
+ /usr/local/csound_baremetal/include/csound/plugin.h \
+ /usr/local/csound_baremetal/include/csound/csdl.h \
+ /usr/local/csound_baremetal/include/csound/interlocks.h \
+ /usr/local/csound_baremetal/include/csound/csoundCore.h \
+ /usr/local/csound_baremetal/include/csound/cs_par_structs.h \
+ /usr/local/csound_baremetal/include/csound/csound_type_system.h \
+ /usr/local/csound_baremetal/include/csound/csound.h \
+ /usr/local/csound_baremetal/include/csound/csound_data_structures.h \
+ /usr/local/csound_baremetal/include/csound/cscore.h \
+ /usr/local/csound_baremetal/include/csound/csound_standard_types.h \
+ /usr/local/csound_baremetal/include/csound/pools.h \
+ /usr/local/csound_baremetal/include/csound/soundfile.h \
+ /usr/local/csound_baremetal/include/csound/find_opcode.h \
+ /usr/local/csound_baremetal/include/csound/pstream.h \
+ /usr/local/csound_baremetal/include/csound/arrays.h
 ../../libDaisy//Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h:
 ../../libDaisy//Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h750xx.h:
 ../../libDaisy//Drivers/CMSIS/Include/core_cm7.h:
@@ -470,6 +485,7 @@ build/daisyCsound.o: daisyCsound.cpp \
 ../../DaisySP//Source/Utility/samplehold.h:
 ../../DaisySP//Source/Utility/smooth_random.h:
 daisyCsound.h:
+midiBuffer.h:
 /usr/local/csound_baremetal/include/csound/csound.h:
 /usr/local/csound_baremetal/include/csound/sysdep.h:
 /usr/local/csound_baremetal/include/csound/float-version.h:
@@ -477,3 +493,18 @@ daisyCsound.h:
 /usr/local/csound_baremetal/include/csound/cfgvar.h:
 /usr/local/csound_baremetal/include/csound/msg_attr.h:
 /usr/local/csound_baremetal/include/csound/version.h:
+/usr/local/csound_baremetal/include/csound/plugin.h:
+/usr/local/csound_baremetal/include/csound/csdl.h:
+/usr/local/csound_baremetal/include/csound/interlocks.h:
+/usr/local/csound_baremetal/include/csound/csoundCore.h:
+/usr/local/csound_baremetal/include/csound/cs_par_structs.h:
+/usr/local/csound_baremetal/include/csound/csound_type_system.h:
+/usr/local/csound_baremetal/include/csound/csound.h:
+/usr/local/csound_baremetal/include/csound/csound_data_structures.h:
+/usr/local/csound_baremetal/include/csound/cscore.h:
+/usr/local/csound_baremetal/include/csound/csound_standard_types.h:
+/usr/local/csound_baremetal/include/csound/pools.h:
+/usr/local/csound_baremetal/include/csound/soundfile.h:
+/usr/local/csound_baremetal/include/csound/find_opcode.h:
+/usr/local/csound_baremetal/include/csound/pstream.h:
+/usr/local/csound_baremetal/include/csound/arrays.h:

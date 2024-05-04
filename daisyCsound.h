@@ -12,21 +12,22 @@ string csdText = R"csd(
       <CsInstruments>
 
       sr = 48000
-      ksamps = 32
       0dbfs = 1
       nchnls = 2
-      instr 1
-      kcf chnget "AnalogIn0"
-      iamp ampmidi 1
-      icps cpsmidi
-      aenv madsr .1, .2, .6, .4
-      a1 vco2 iamp, icps
-      a2 vco2 iamp, icps
-      afilt butterlp (a1+a2), 40 + (kcf * 10000)
-      outs afilt*aenv, afilt*aenv
-      endin
-      //schedule 1, 0, 1000, 74
 
+      
+
+      instr 1
+      kdigi chnget "DigiIn1"
+      kcf chnget "AnalogIn0"
+      icps cpsmidi
+      kcf chnget "AnalogIn0"
+      aenv madsr .1, .2, .6, .3
+      a1 vco2 0.5, icps*0.995
+      a2 vco2 0.5, icps*1.005
+      afilt butterlp (a1+a2), 70 + (12000*kcf)
+      outs afilt*aenv*kdigi, afilt*aenv*kdigi
+      endin
 
       </CsInstruments>
       <CsScore>
