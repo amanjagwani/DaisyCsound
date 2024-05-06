@@ -18,7 +18,7 @@ string csdText = R"csd(
       
 
       instr 1
-      kdigi chnget "DigiIn1"
+      kdigi digiInDaisy 1, 2
       kcf chnget "AnalogIn0"
       icps cpsmidi
       kcf chnget "AnalogIn0"

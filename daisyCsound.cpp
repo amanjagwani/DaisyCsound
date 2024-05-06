@@ -56,25 +56,10 @@ struct DigiInHandler
     static const int numDigiChannels = 15;
     Pin              digiPins[numDigiChannels]
         = {D0, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14};
-    bool        digiPinActive[numDigiChannels] = {false};
-    int         digiVals[numDigiChannels]      = {0};
-    GPIO        gpios[numDigiChannels];
-    GPIO::Pull  digiPullModes[numDigiChannels];
-    const char *digiChannelNames[numDigiChannels] = {"DigiIn0",
-                                                     "DigiIn1",
-                                                     "DigiIn2",
-                                                     "DigiIn3",
-                                                     "DigiIn4",
-                                                     "DigiIn5",
-                                                     "DigiIn6",
-                                                     "DigiIn7",
-                                                     "DigiIn8",
-                                                     "DigiIn9",
-                                                     "DigiIn10",
-                                                     "DigiIn11",
-                                                     "DigiIn12",
-                                                     "DigiIn13",
-                                                     "DigiIn14"};
+    bool       digiPinActive[numDigiChannels] = {false};
+    int        digiVals[numDigiChannels]      = {0};
+    GPIO       gpios[numDigiChannels];
+    GPIO::Pull digiPullModes[numDigiChannels];
 
 
     DigiInHandler()
@@ -97,7 +82,7 @@ struct DigiInHandler
     {
         for(int i = 0; i < numDigiChannels; ++i)
         {
-            //if(digiPinActive[i])
+            if(digiPinActive[i])
             {
                 digiVals[i] = gpios[i].Read();
             }
@@ -138,6 +123,38 @@ std::vector<uint8_t> ConvertMidiEventToBytes(const MidiEvent &event)
 }
 
 
+struct DigiIn : csnd::Plugin<1, 2>
+{
+    DigiInHandler *handler;
+    int            pinNumber;
+    bool           initDone;
+
+    int init()
+    {
+        handler                           = (DigiInHandler *)&digiHandler;
+        pinNumber                         = (int)inargs[0];
+        pinNumber                         = (pinNumber < 0) ? 0
+                                                            : (pinNumber > handler->numDigiChannels - 1
+                                                                   ? handler->numDigiChannels - 1
+                                                                   : pinNumber);
+        handler->digiPinActive[pinNumber] = true;
+        GPIO::Pull pullMode               = (GPIO::Pull)inargs[1];
+        handler->digiPullModes[pinNumber] = pullMode;
+        initDone                          = true;
+        return OK;
+    }
+
+    int kperf()
+    {
+        if(!initDone)
+        {
+            return NOTOK;
+        }
+        outargs[0] = (MYFLT)handler->digiVals[pinNumber];
+        return OK;
+    }
+};
+
 void AudioCallback(AudioHandle::InputBuffer  in,
                    AudioHandle::OutputBuffer out,
                    size_t                    size)
@@ -174,6 +191,10 @@ int main(void)
     csoundSetExternalMidiInOpenCallback(cs, OpenMidiInDevice);
     csoundSetExternalMidiReadCallback(cs, ReadMidiData);
     csoundSetExternalMidiInCloseCallback(cs, CloseMidiInDevice);
+    if(csnd::plugin<DigiIn>(
+           (csnd::Csound *)cs, "digiInDaisy", "k", "ii", csnd::thread::ik)
+       != 0)
+        hw.PrintLine("Warning: could not add digiInDaisy k-rate opcode\n");
 
     AdcChannelConfig adcConfig[numAdcChannels];
     for(int i = 0; i < numAdcChannels; i++)
@@ -220,19 +241,11 @@ int main(void)
                     adcVals[i] = hw.adc.GetFloat(i);
                 }
                 digiHandler.readDigiPins();
-                hw.PrintLine("Digi 1 = %d", digiHandler.digiVals[1]);
 
                 for(int i = 0; i < numAdcChannels; i++)
                 {
                     csoundSetControlChannel(
                         csound, controlChannelNames[i], adcVals[i]);
-                }
-
-                for(int i = 0; i < digiHandler.numDigiChannels; i++)
-                {
-                    csoundSetControlChannel(csound,
-                                            digiHandler.digiChannelNames[i],
-                                            digiHandler.digiVals[i]);
                 }
             }
             csoundReset(cs);
